@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "config": "^1.28.1",
+    "koa": "^2.4.1",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.3.0",
+    "pg": "^7.4.0",
+    "routing-controllers": "^0.7.6",
+    "sequelize": "^4.22.11"
+  }
+}

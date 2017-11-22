@@ -1,0 +1,5 @@
+debug_logging: true
+bind_port: 5000
+frontend_url: http://localhost:5000
+controllers:
+  - controllers/*.js
