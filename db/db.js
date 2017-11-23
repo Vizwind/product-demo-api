@@ -1,4 +1,5 @@
-const Sequelize = require('sequelize');
+const Sequelize = require('sequelize')
+
 const sequelize = new Sequelize('product_demo_dev', '', '', {
   host: 'localhost',
   dialect: 'postgres',
@@ -10,17 +11,4 @@ const sequelize = new Sequelize('product_demo_dev', '', '', {
   },
 })
 
-const Product = sequelize.define('product', {
-  id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
-  },
-  name: Sequelize.STRING,
-  description: Sequelize.STRING,
-  price: Sequelize.DECIMAL,
-}, {
-  timestamps: false
-})
-
-Product.sync()
+module.exports = sequelize

@@ -1,21 +1,15 @@
 const Koa = require("koa")
-const {createKoaServer} = require("routing-controllers")
 const config = require("config")
-require('./db/db.js')
+const cors = require('koa-cors')
+const productRoute = require('./routes/product')
+require('./db/init.js')
 
-async function init() {
-  const app = createKoaServer({
-    development: config.get("debug_logging"),
-    controllers: (config.get("controllers")).map(item => {
-      return `${__dirname}/${item}`
-    }),
-  })
+function start() {
+  const app = new Koa()
+  app.use(cors())
+  app.use(productRoute.routes())
+  app.use(productRoute.allowedMethods())
 
-  return app
-}
-
-async function start() {
-  let app = await init()
   let port = config.get("bind_port")
   app.listen(port)
   console.log(`Koa listening on ${port} ...`)

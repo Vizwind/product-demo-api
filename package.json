@@ -4,11 +4,12 @@
   },
   "dependencies": {
     "config": "^1.28.1",
+    "js-yaml": "^3.10.0",
     "koa": "^2.4.1",
     "koa-bodyparser": "^4.2.0",
+    "koa-cors": "^0.0.16",
     "koa-router": "^7.3.0",
     "pg": "^7.4.0",
-    "routing-controllers": "^0.7.6",
     "sequelize": "^4.22.11"
   }
 }
