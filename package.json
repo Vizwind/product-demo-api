@@ -4,6 +4,7 @@
   },
   "dependencies": {
     "config": "^1.28.1",
+    "elasticsearch": "^14.0.0",
     "js-yaml": "^3.10.0",
     "koa": "^2.4.1",
     "koa-body": "^2.5.0",

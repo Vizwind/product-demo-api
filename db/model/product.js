@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
+const elastic = require('../../elastic/client')
 
 const Product = db.define('product', {
   id: {
@@ -19,5 +20,21 @@ const Product = db.define('product', {
 }, {
   timestamps: false
 })
+
+Product.afterCreate(async (product, options) => {
+  console.log(`after create: ${product}`)
+  await elastic.create({
+    index: 'product',
+    type: 'name',
+    id: product.id,
+    body: {
+      name: product.name,
+      published: true,
+      published_at: new Date(),
+      counter: 1
+    }
+  })
+})
+
 
 module.exports = Product
