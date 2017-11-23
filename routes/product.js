@@ -59,5 +59,24 @@ router.delete('/:id', async (ctx, next) => {
   }
 })
 
+router.get('/search/:searchQuery', async (ctx, next) => {
+  try {
+    let searchQuery = ctx.params.searchQuery
+    ctx.body = [
+      {
+        id: 1,
+        name: '1',
+        price: 1
+      }
+    ]
+  } catch (ex) {
+    console.error(ex)
+    ctx.response.status = 400
+    ctx.body = {
+      errors: [ ex.message ]
+    }
+  }
+})
+
 
 module.exports = router
