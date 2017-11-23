@@ -22,17 +22,11 @@ const Product = db.define('product', {
 })
 
 Product.afterCreate(async (product, options) => {
-  console.log(`after create: ${product}`)
   await elastic.create({
     index: 'product',
-    type: 'name',
+    type: 'doc',
     id: product.id,
-    body: {
-      name: product.name,
-      published: true,
-      published_at: new Date(),
-      counter: 1
-    }
+    body: product
   })
 })
 

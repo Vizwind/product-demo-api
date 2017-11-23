@@ -1,6 +1,7 @@
 const Router = require('koa-router')
 const router = new Router({prefix: '/api/products'})
 const Product = require('../db/model/product')
+const elastic = require('../elastic/client')
 
 router.get('/:id?', async (ctx, next) => {
   try {
@@ -62,18 +63,36 @@ router.delete('/:id', async (ctx, next) => {
 router.get('/search/:searchQuery', async (ctx, next) => {
   try {
     let searchQuery = ctx.params.searchQuery
-    ctx.body = [
-      {
-        id: 1,
-        name: '1',
-        price: 1
+    let resp = await elastic.search({
+      index: 'product',
+      type: 'doc',
+      body: {
+        size: 100,
+        query: {
+          "bool": {
+            "should": [
+              { "regexp":
+                { "name": {
+                  value: `.*${searchQuery}.*`,
+                  boost: 2 }
+                }
+              },
+              { "regexp": { "description": `.*${searchQuery}.*` } }
+            ]
+          }
+        }
       }
-    ]
-  } catch (ex) {
-    console.error(ex)
+    })
+    ctx.body = resp.hits.hits
+  } catch (err) {
+    console.error(err)
+    if(err.status === 404) {
+      ctx.body = {}
+      return
+    }
     ctx.response.status = 400
     ctx.body = {
-      errors: [ ex.message ]
+      errors: [ err.message ]
     }
   }
 })
