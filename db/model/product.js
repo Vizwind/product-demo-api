@@ -30,5 +30,24 @@ Product.afterCreate(async (product, options) => {
   })
 })
 
+Product.afterUpdate(async (product, options) => {
+  await elastic.update({
+    index: 'product',
+    type: 'doc',
+    id: product.id,
+    body: {
+      doc: product
+    }
+  })
+})
+
+Product.afterDelete(async (product, options) => {
+  await elastic.delete({
+    index: 'product',
+    type: 'doc',
+    id: product.id
+  })
+})
+
 
 module.exports = Product

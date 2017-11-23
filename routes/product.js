@@ -71,13 +71,13 @@ router.get('/search/:searchQuery', async (ctx, next) => {
         query: {
           "bool": {
             "should": [
-              { "regexp":
+              { "wildcard":
                 { "name": {
-                  value: `.*${searchQuery}.*`,
+                  value: `*${searchQuery}*`,
                   boost: 2 }
                 }
               },
-              { "regexp": { "description": `.*${searchQuery}.*` } }
+              { "wildcard": { "description": `*${searchQuery}*` } }
             ]
           }
         }
