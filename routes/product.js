@@ -1,30 +1,62 @@
 const Router = require('koa-router')
-const router = new Router({ prefix: '/api/products' })
+const router = new Router({prefix: '/api/products'})
 const Product = require('../db/model/product')
 
 router.get('/:id?', async (ctx, next) => {
-  let id = ctx.params.id
-  ctx.body = id ? await Product.findById(id) : await Product.findAll()
+  try {
+    let id = ctx.params.id
+    ctx.body = id ? await Product.findById(id) : await Product.findAll()
+  } catch (ex) {
+    console.error(ex)
+    ctx.response.status = 400
+    ctx.body = {
+      errors: [ ex.message ]
+    }
+  }
 })
 
 router.post('/', async (ctx, next) => {
-  let product = ctx.request.body
-  await Product.create(product)
-  ctx.body = {}
+  try {
+    let product = ctx.request.body
+    await Product.create(product)
+    ctx.body = {}
+  } catch (ex) {
+    console.error(ex)
+    ctx.response.status = 400
+    ctx.body = {
+      errors: [ ex.message ]
+    }
+  }
 })
 
 router.put('/', async (ctx, next) => {
-  let product = ctx.request.body
-  let productFound = await Product.findById(product.id)
-  productFound.update(product)
-  ctx.body = {}
+  try {
+    let product = ctx.request.body
+    let productFound = await Product.findById(product.id)
+    await productFound.update(product)
+    ctx.body = {}
+  } catch (ex) {
+    console.error(ex)
+    ctx.response.status = 400
+    ctx.body = {
+      errors: [ex.message]
+    }
+  }
 })
 
 router.delete('/:id', async (ctx, next) => {
-  let id = ctx.params.id
-  let productFound = await Product.findById(id)
-  productFound.destroy()
-  ctx.body = {}
+  try {
+    let id = ctx.params.id
+    let productFound = await Product.findById(id)
+    await productFound.destroy()
+    ctx.body = {}
+  } catch (ex) {
+    console.error(ex)
+    ctx.response.status = 400
+    ctx.body = {
+      errors: [ex.message]
+    }
+  }
 })
 
 

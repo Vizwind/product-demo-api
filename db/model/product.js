@@ -7,9 +7,15 @@ const Product = db.define('product', {
     autoIncrement: true,
     primaryKey: true
   },
-  name: Sequelize.STRING,
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   description: Sequelize.STRING,
-  price: Sequelize.DECIMAL,
+  price: {
+    type: Sequelize.DECIMAL,
+    allowNull: false
+  }
 }, {
   timestamps: false
 })
